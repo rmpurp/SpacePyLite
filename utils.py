@@ -17,7 +17,9 @@ class _GetchUnix:
         pass
 
     def __call__(self):
-        import sys, tty, termios
+        import sys
+        import tty
+        import termios
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
         try:
@@ -38,5 +40,3 @@ class _GetchWindows:
 
 
 getch = _Getch()
-
-

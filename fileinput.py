@@ -4,55 +4,12 @@ import shutil
 import os
 from sys import argv
 from utils import getch
+from card import Card
 
 # TODO Learn mode
 # TODO Rating system
 # Essentially copy algorithm from you-know-what
 # May want to update text file after EVERY card review
-
-class Card:
-    necessary_fields = ['ef', 'iter_num', 'next_review', 'spacing']
-
-    def __init__(self, description, response, metadata=None):
-        self.description = description
-        self.response = response
-        if not metadata:
-            metadata = {
-                'ef': 2.5,
-                'iter_num': 0,
-                'next_review': datetime.date.today(),
-                'iter_length': 0
-            }
-        else:
-            try:
-                metadata = json.loads(metadata)
-                metadata['next_review'] = datetime.date.fromisoformat(
-                    metadata['next_review'])
-
-            except (json.decoder.JSONDecodeError, ValueError):
-                print("Invalid JSON metadata string for {}: {}".format(
-                    response, metadata))
-                exit(1)
-        self.metadata = metadata
-
-    def is_reviewable(self, current_date=None):
-        if not current_date:
-            current_date = datetime.date.today()
-
-    def rate(self, score):
-        pass
-
-    def __repr__(self):
-        return 'Card({!r}, {!r}, {!r})'.format(self.description, self.response,
-                                               self.metadata)
-
-    def __str__(self):
-        metadata_string_date = dict(self.metadata)
-        metadata_string_date['next_review'] = self.metadata[
-            'next_review'].isoformat()
-        return '\n'.join((self.description, self.response,
-                          json.dumps(metadata_string_date)))
-
 
 def prompt_menu(items, message='Select one of the following options.'):
     while True:
@@ -72,10 +29,10 @@ def prompt_menu(items, message='Select one of the following options.'):
 class CardBag:
     def __init__(self, cards, num_cards):
         eligible_cards = list(filter(lambda x: x.is_reviewable(), cards))
-    
+
         if num_cards < 0 or num_cards > len(eligible_cards):
             num_cards = len(eligible_cards)
-    
+
         self.cards = eligible_cards[:num_cards]
         self.last_card = None
 
@@ -91,21 +48,12 @@ class CardBag:
             self.current_bag = eligible_cards[:num_cards]
 
     def replace_last_card(self):
+        pass
 
 
 def learn(cards, current_time=None, num_cards=-1):
     if num_cards <= 0:
         return
-
-
-
-
-
-
-
-
-
-
 
 
 def make_card(unit):
