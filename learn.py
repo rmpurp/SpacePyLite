@@ -1,4 +1,5 @@
 from random import shuffle
+from operator import attrgetter
 
 
 class CardBag:
@@ -12,10 +13,12 @@ class CardBag:
         """
         eligible_cards = list(filter(lambda x: x.is_reviewable(), cards))
 
-        if num_cards < 0 or num_cards > len(eligible_cards):
-            num_cards = len(eligible_cards)
+        if num_cards < 0 or num_cards >= len(eligible_cards):
+            self.cards = eligible_cards
+        else:
+            eligible_cards.sort(key=attrgetter('next_review'))
+            self.cards = eligible_cards[:num_cards]
 
-        self.cards = eligible_cards[:num_cards]
         self.last_card = None
 
         self.current_bag = []
@@ -24,7 +27,7 @@ class CardBag:
     def refill_bag(self):
         """Refill the bag to 10 cards, if possible."""
         new_cards = self.cards[:10 - len(self.current_bag)]
-        del self.cards[len(self.current_bag):10]
+        del self.cards[:10 - len(self.current_bag)]
 
         if self.shuffle:
             shuffle(new_cards)
@@ -52,7 +55,7 @@ class CardBag:
         return self
 
 
-def learn(cards, show_fn=None, rate_fn=None, num_cards=-1):
+def learn(cards, show_fn=None, rate_fn=None, write_fn=None, num_cards=-1):
     """Learn the given cards.
 
     show_fn is intended to be used to prompt the user for an answer,
@@ -60,14 +63,19 @@ def learn(cards, show_fn=None, rate_fn=None, num_cards=-1):
     given, nothing will occur, and if rate_fn is not given, "3" will be the
     rating given.
     """
+    if not show_fn:
+        def show_fn(card): pass
 
-    if num_cards <= 0:
-        return
+    if not rate_fn:
+        def rate_fn(card): return 3
 
     bag = CardBag(cards, num_cards)
 
     for card in bag:
         show_fn(card)
         rating = rate_fn(card)
+        card.rate(rating)
         if rating < 2:
             bag.recycle_last()
+        if write_fn:
+            write_fn()

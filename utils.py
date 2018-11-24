@@ -40,3 +40,13 @@ class _GetchWindows:
 
 
 getch = _Getch()
+
+
+def calculate_easiness_delta(rating):
+    return - 0.8 + 0.6 * rating - 0.1 * rating * rating
+
+
+def round_time_delta_to_day(timedelta):
+    days = timedelta.days
+    seconds = timedelta.seconds
+    return timedelta(days=days + int(bool(seconds)))

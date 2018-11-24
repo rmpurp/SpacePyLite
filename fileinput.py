@@ -1,13 +1,10 @@
 import shutil
 import os
-from sys import argv
 from .card import Card
 from .utils import getch
 
 # TODO Learn mode
 # TODO Rating system
-# Essentially copy algorithm from you-know-what
-# May want to update text file after EVERY card review
 
 
 def prompt_menu(items, message='Select one of the following options.'):
@@ -52,18 +49,4 @@ def write_cards(filepath, cards):
     os.remove(filename + '.tmp')
 
 
-if __name__ == '__main__':
-    if len(argv) <= 1:
-        print("Error: no file specified.")
-        exit(1)
-    filename = argv[1]
-    if len(argv) >= 3:
-        try:
-            num_to_learn = int(argv[2])
-        except ValueError:
-            print("Invalid number of cards to learn.")
-    else:
-        num_to_learn = None
 
-    cards = read_cards(filename)
-    write_cards(filename, cards)
