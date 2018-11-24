@@ -1,8 +1,8 @@
 import shutil
 import os
 from sys import argv
-from utils import getch
-from card import Card
+from .card import Card
+from .utils import getch
 
 # TODO Learn mode
 # TODO Rating system
@@ -33,7 +33,7 @@ def validate_unit(unit):
     return len(unit) >= 2
 
 
-def get_cards(filepath):
+def read_cards(filepath):
     with open(filepath) as f:
         units = [x.strip().split('\n') for x in f.read().split('\n\n')]
         cards = map(make_card, filter(validate_unit, units))
@@ -48,8 +48,8 @@ def write_cards(filepath, cards):
     with open(temp_name, 'w') as f:
         f.write('\n\n'.join(map(str, cards)) + '\n')
 
-    shutil.copy('test.txt.tmp', 'test.txt')
-    os.remove('test.txt.tmp')
+    shutil.copy(filename + '.tmp', filename)
+    os.remove(filename + '.tmp')
 
 
 if __name__ == '__main__':
@@ -65,5 +65,5 @@ if __name__ == '__main__':
     else:
         num_to_learn = None
 
-    cards = get_cards(filename)
+    cards = read_cards(filename)
     write_cards(filename, cards)

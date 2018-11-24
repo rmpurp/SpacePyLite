@@ -1,3 +1,7 @@
+import datetime
+import json
+
+
 class Card:
     necessary_fields = ['ef', 'iter_num', 'next_review', 'spacing']
 
@@ -40,5 +44,3 @@ class Card:
             'next_review'].isoformat()
         return '\n'.join((self.description, self.response,
                           json.dumps(metadata_string_date)))
-
-
