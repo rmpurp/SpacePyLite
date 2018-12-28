@@ -7,21 +7,6 @@ from .utils import getch
 # TODO Rating system
 
 
-def prompt_menu(items, message='Select one of the following options.'):
-    while True:
-        print(message)
-        for idx, item in enumerate(items):
-            print('{}: {}'.format(idx, item))
-        input_str = getch()
-        try:
-            num = int(input_str)
-            if 0 <= num < len(items):
-                return num
-        except ValueError:
-            pass
-        print('Invalid input.')
-
-
 def make_card(unit):
     return Card(*unit[:3])
 
