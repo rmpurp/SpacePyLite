@@ -1,4 +1,5 @@
 from utils import getch
+from termcolor import colored
 
 def menu(items, prompt='', on_exit=None):
     if not on_exit: on_exit = exit
@@ -18,14 +19,13 @@ def menu(items, prompt='', on_exit=None):
             print('"{}" is an invalid choice.'.format(choice))
             choice = None
 
-    return choice
-    
+    return int(choice)
+def show_fn(card):
+    print(colored(card.description, 'yellow', attrs=['bold', 'underline']))
+    getch()
+     
 def rate_fn(card):
-    print(card.response)
+    print(colored(card.response, 'red', attrs=['bold']))
     return menu(["No idea", "Almost remembered", "Remembered", "Remembered well"])
 
-def show_fn(card):
-    print(description)
-    print('Press any key to continue.')
-    getch()
-    
+

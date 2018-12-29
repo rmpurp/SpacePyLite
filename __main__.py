@@ -1,7 +1,8 @@
-from .fileinput import read_cards, write_cards
+from fileinput import read_cards, write_cards
 from sys import argv
 from learn import learn
 from functools import partial
+from cli import rate_fn, show_fn
 
 if __name__ == '__main__':
     if len(argv) <= 1:
@@ -14,12 +15,12 @@ if __name__ == '__main__':
         except ValueError:
             print("Invalid number of cards to learn.")
     else:
-        num_to_learn = None
+        num_to_learn = -1
 
     cards = read_cards(filename)
 
     learn(cards,
-          show_fn=None,
-          rate_fn=None,
+          show_fn=show_fn,
+          rate_fn=rate_fn,
           write_fn=partial(write_cards, filename, cards),
           num_cards=num_to_learn)

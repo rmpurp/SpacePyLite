@@ -50,3 +50,5 @@ def round_time_delta_to_day(timedelta):
     days = timedelta.days
     seconds = timedelta.seconds
     return timedelta(days=days + int(bool(seconds)))
+
+

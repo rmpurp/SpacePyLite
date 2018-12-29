@@ -1,11 +1,7 @@
 import shutil
 import os
-from .card import Card
-from .utils import getch
-
-# TODO Learn mode
-# TODO Rating system
-
+from card import Card
+from utils import getch
 
 def make_card(unit):
     return Card(*unit[:3])
@@ -27,11 +23,8 @@ def write_cards(filepath, cards):
     filename = os.path.basename(filepath)
     temp_name = os.path.join(directory, filename + '.tmp')
 
-    with open(temp_name, 'w') as f:
+    with open(temp_name, 'w', dir_fd=directory) as f:
         f.write('\n\n'.join(map(str, cards)) + '\n')
 
-    shutil.copy(filename + '.tmp', filename)
-    os.remove(filename + '.tmp')
-
-
+    os.replace(filename + '.tmp', filename, src_dir_fd=directory, dst_dir_fd=directory)
 

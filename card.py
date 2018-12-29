@@ -1,6 +1,6 @@
 import datetime
 import json
-from .utils import calculate_easiness_delta, round_time_delta_to_day
+from utils import calculate_easiness_delta, round_time_delta_to_day
 
 
 class Card:
@@ -8,7 +8,7 @@ class Card:
         self.description = description
         self.response = response
         if not metadata:
-            metadata = {
+            self.metadata = {
                 'ef': 2.5,
                 'iter_num': 0,
                 'next_review': datetime.date.today(),
@@ -26,7 +26,6 @@ class Card:
                 print("Invalid JSON metadata string for {}: {}".format(
                     response, metadata))
                 exit(1)
-        self.metadata = metadata
 
     def is_reviewable(self, current_date=None):
         if not current_date:
