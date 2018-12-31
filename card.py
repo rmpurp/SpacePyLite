@@ -54,6 +54,7 @@ class Card:
             self.iteration_length *= self.easiness_factor
             self.iteration_length = round_time_delta_to_day(
                 self.iteration_length)
+        self.next_review = datetime.date.today() + self.iteration_length 
 
     def __str__(self):
         metadata_string_date = dict(self.metadata)

@@ -21,10 +21,10 @@ def read_cards(filepath):
 def write_cards(filepath, cards):
     directory = os.path.dirname(filepath)
     filename = os.path.basename(filepath)
-    temp_name = os.path.join(directory, filename + '.tmp')
+    temppath = os.path.join(directory, filename + '.tmp')
 
-    with open(temp_name, 'w', dir_fd=directory) as f:
+    with open(temppath, 'w') as f:
         f.write('\n\n'.join(map(str, cards)) + '\n')
 
-    os.replace(filename + '.tmp', filename, src_dir_fd=directory, dst_dir_fd=directory)
+    os.replace(temppath, filepath)
 

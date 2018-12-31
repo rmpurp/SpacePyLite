@@ -17,7 +17,7 @@ if __name__ == '__main__':
     else:
         num_to_learn = -1
 
-    cards = read_cards(filename)
+    cards = list(read_cards(filename))
 
     learn(cards,
           show_fn=show_fn,
