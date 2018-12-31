@@ -18,9 +18,10 @@ class CardBag:
         else:
             eligible_cards.sort(key=attrgetter('next_review'))
             self.cards = eligible_cards[:num_cards]
+        self.total_num = len(self.cards)
+        
 
         self.last_card = None
-
         self.current_bag = []
         self.shuffle = shuffle
 
@@ -33,6 +34,10 @@ class CardBag:
             shuffle(new_cards)
 
         self.current_bag.extend(new_cards)
+
+    def __len__(self):
+        """Get the number of cards remaining in the bag"""
+        return len(self.cards) + len(self.current_bag)
 
     def recycle_last(self):
         """Place the most recent card back into the bag."""
@@ -64,7 +69,7 @@ def learn(cards, show_fn=None, rate_fn=None, write_fn=None, num_cards=-1):
     rating given.
     """
     if not show_fn:
-        def show_fn(card): pass
+        def show_fn(card, remaining, total): pass
 
     if not rate_fn:
         def rate_fn(card): return 3
@@ -72,7 +77,7 @@ def learn(cards, show_fn=None, rate_fn=None, write_fn=None, num_cards=-1):
     bag = CardBag(cards, num_cards)
 
     for card in bag:
-        show_fn(card)
+        show_fn(card, len(bag), bag.total_num)
         rating = rate_fn(card)
         card.rate(rating)
         if rating < 2:

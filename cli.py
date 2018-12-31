@@ -20,8 +20,9 @@ def menu(items, prompt='', on_exit=None):
             choice = None
 
     return int(choice)
-def show_fn(card):
-    print(colored(card.description, 'yellow', attrs=['bold', 'underline']))
+def show_fn(card, remaining, total):
+    cur_num = total - remaining
+    print("[{}/{}] ".format(cur_num, total) + colored(card.description, 'yellow', attrs=['bold', 'underline']))
     getch()
      
 def rate_fn(card):
